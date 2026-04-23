@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useNavigate } from "react-router";
 import { Sun, Moon } from "lucide-react";
 import sceneJson from "../imports/space_for_mind_remix-1.json";
 
@@ -269,6 +270,7 @@ function CaseCard({ num, company, title, tags, metrics, href }: {
   metrics: { value: string; label: string }[]; href: string;
 }) {
   const { hovered, pressed, reset, bind } = useHover();
+  const navigate = useNavigate();
   const pc = hovered ? "var(--color-inv-text-1)" : "var(--color-text-primary)";
   const sc = hovered ? "var(--color-inv-text-2)" : "var(--color-text-secondary)";
   const tc = hovered ? "var(--color-inv-text-2)" : "var(--color-text-tertiary)";
@@ -284,7 +286,7 @@ function CaseCard({ num, company, title, tags, metrics, href }: {
           : "transform 0.12s cubic-bezier(0.0,0,0.2,1), background-color 0.07s",
       }}
       {...bind}
-      onClick={() => { reset(); window.open(href, "_blank", "noopener,noreferrer"); }}
+      onClick={() => { reset(); href.startsWith("/") ? navigate(href) : window.open(href, "_blank", "noopener,noreferrer"); }}
     >
       {/* Desktop */}
       <div className="hidden lg:grid grid-cols-[minmax(0,0.5fr)_minmax(0,4fr)_minmax(0,2fr)] gap-x-[96px] py-[48px] px-[16px]">
@@ -409,7 +411,7 @@ const signalCards = [
 ];
 
 const cases = [
-  { num: "01", company: "Omnipractice", title: "Designing for user activation against a massive 86% drop-off", tags: "Healthcare SaaS · b2b · Lead Designer · 5 weeks", metrics: [{ value: "14 → 41%", label: "activation_rate" }, { value: "30 → 70%", label: "onb_completion" }], href: "https://case-01.figma.site/" },
+  { num: "01", company: "Omnipractice", title: "Designing for user activation against a massive 86% drop-off", tags: "Healthcare SaaS · b2b · Lead Designer · 5 weeks", metrics: [{ value: "14 → 41%", label: "activation_rate" }, { value: "30 → 70%", label: "onb_completion" }], href: "/case/01" },
   { num: "02", company: "Omnipractice", title: "Practice management SaaS for mental health clinics in the US", tags: "Healthcare SaaS · b2b & b2c· Lead Designer · 8 months", metrics: [{ value: "35% decrease", label: "claim_rejections" }, { value: "100+ components", label: "design_system" }], href: "https://wondrous-need-786173.framer.app/" },
   { num: "03", company: "Fairsplits", title: "Lifestyle finance app for trips and hangouts", tags: "consumer app · Mobile · 0 → 1 · founding designer. 2025", metrics: [{ value: "released", label: "app_store" }, { value: "released", label: "play_store" }], href: "https://www.behance.net/gallery/217296307/Fairsplits-UIUX-Case-study-Bill-splitting-app" },
 ];
