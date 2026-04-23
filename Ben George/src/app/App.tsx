@@ -3,9 +3,8 @@ import { Sun, Moon } from "lucide-react";
 import sceneJson from "../imports/space_for_mind_remix-1.json";
 
 const UNICORN_SDK_URL = "https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@2.1.9/dist/unicornStudio.umd.js";
-const SCENE_PROJECT_ID = (sceneJson as any).id as string; // "CmV7vjiNuk81wkYAdEFX"
+const SCENE_PROJECT_ID = (sceneJson as any).id as string;
 
-// Component that renders the Unicorn Studio WebGL scene by intercepting the SDK's fetch
 function UnicornBg({ opacity }: { opacity: number }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<any>(null);
@@ -14,7 +13,6 @@ function UnicornBg({ opacity }: { opacity: number }) {
     let cancelled = false;
 
     async function init() {
-      // Load SDK script if not present
       if (!(window as any).UnicornStudio) {
         await new Promise<void>((resolve, reject) => {
           const s = document.createElement("script");
@@ -29,13 +27,10 @@ function UnicornBg({ opacity }: { opacity: number }) {
       const US = (window as any).UnicornStudio;
       if (!US?.addScene) return;
 
-      // Monkey-patch fetch so that when the SDK fetches the project by ID,
-      // we return our local JSON instead
       const originalFetch = window.fetch;
       window.fetch = async function patchedFetch(input: any, init?: any) {
         const url = typeof input === "string" ? input : input?.url || "";
         if (url.includes(SCENE_PROJECT_ID)) {
-          // Return the local scene JSON as a fake Response
           return new Response(JSON.stringify(sceneJson), {
             status: 200,
             headers: { "Content-Type": "application/json" },
@@ -62,7 +57,6 @@ function UnicornBg({ opacity }: { opacity: number }) {
       } catch (e) {
         console.error("Unicorn scene init error:", e);
       } finally {
-        // Restore original fetch
         window.fetch = originalFetch;
       }
     }
@@ -83,7 +77,6 @@ function UnicornBg({ opacity }: { opacity: number }) {
         className="absolute inset-0 w-full h-full pointer-events-none"
         style={{ opacity }}
       />
-      {/* Hide "made with Unicorn Studio" badge */}
       <style>{`
         #unicorn-bg a[href*="unicorn.studio"],
         #unicorn-bg a[href*="unicornstudio"],
@@ -145,7 +138,6 @@ function useHover() {
   };
 }
 
-// Fast eased scroll — 350ms easeOutQuart
 function smoothScrollTo(element: HTMLElement) {
   const start = window.scrollY;
   const target = element.getBoundingClientRect().top + window.scrollY;
@@ -161,68 +153,39 @@ function smoothScrollTo(element: HTMLElement) {
   requestAnimationFrame(step);
 }
 
-// Colors helper
-function c(dark: boolean) {
-  return {
-    bg: dark ? "#121413" : "#f9f9f9",
-    bgOverlay: dark ? "rgba(18, 20, 19, 0.55)" : "rgba(249, 249, 249, 0.55)",
-    // Same hue as bg at alpha 0 — prevents the black-bleed that CSS `transparent` causes in gradients
-    bgTransparent: dark ? "rgba(18, 20, 19, 0)" : "rgba(249, 249, 249, 0)",
-    navBg: dark ? "#191d1b" : "#e8ece9",
-    primary: dark ? "#d1d5d3" : "#121212",
-    secondary: dark ? "#949a98" : "#4d4d4d",
-    tertiary: dark ? "#6c7270" : "#757575",
-    muted: dark ? "#949a98" : "#757575",
-    border: dark ? "#2a2e2c" : "#c4ccc9",
-    borderCase: dark ? "#3a403d" : "#c4ccc9",
-    cardBg: "transparent",
-    // inverted
-    iPrimary: dark ? "#121212" : "#d1d5d3",
-    iSecondary: dark ? "#4d4d4d" : "#949a98",
-    iBg: dark ? "#d1d5d3" : "#121212",
-    footerBg: dark ? "#d1d5d3" : "#121212",
-    footerText: dark ? "#191d1b" : "#f9f9f9",
-    emailBg: dark ? "#d1d5d3" : "#121212",
-    emailText: dark ? "#16241f" : "#f9f9f9",
-  };
-}
-
-// --- NavLink with hover ---
-function NavLink({ children, onClick, href, colors }: { children: React.ReactNode; onClick?: () => void; href?: string; colors: ReturnType<typeof c> }) {
+function NavLink({ children, onClick, href }: { children: React.ReactNode; onClick?: () => void; href?: string }) {
   const { hovered, bind } = useHover();
   const style: React.CSSProperties = {
-    fontFamily: "'IBM Plex Mono'",
+    fontFamily: "var(--font-mono)",
     fontWeight: 500,
-    fontSize: 12,
-    letterSpacing: "0.96px",
+    fontSize: "var(--text-label-nav)",
+    letterSpacing: "var(--tracking-label-nav)",
     textTransform: "uppercase" as const,
     lineHeight: "none",
     padding: "4px 8px",
-    borderRadius: 4,
+    borderRadius: "var(--radius-xs)",
     cursor: "pointer",
     transition: "background-color 0.07s, color 0.07s",
-    backgroundColor: hovered ? colors.iBg : "transparent",
-    color: hovered ? colors.iPrimary : colors.primary,
+    backgroundColor: hovered ? "var(--color-inv-bg)" : "transparent",
+    color: hovered ? "var(--color-inv-text-1)" : "var(--color-text-primary)",
     textDecoration: "none",
   };
   if (href) return <a href={href} target="_blank" rel="noopener noreferrer" style={style} {...bind}>{children}</a>;
   return <button onClick={onClick} style={style} {...bind}>{children}</button>;
 }
 
-// --- Navbar ---
 function Navbar({ dark, toggleDark, onScrollTo, onEmail }: { dark: boolean; toggleDark: () => void; onScrollTo: (id: string) => void; onEmail: () => void }) {
   const time = useISTClock();
-  const colors = c(dark);
   const { hovered: toggleHovered, bind: toggleBind } = useHover();
   const { hovered: emailHovered, bind: emailBind } = useHover();
 
   return (
-    <div className="w-full sticky top-0 z-50" style={{ backgroundColor: colors.navBg }}>
+    <div className="w-full sticky top-0 z-50" style={{ backgroundColor: "var(--color-nav-bg)" }}>
       <div className="max-w-[940px] mx-auto px-[16px] md:px-[24px] lg:px-0">
         <div className="flex items-center justify-between py-[16px] w-full">
-          <div className="flex gap-[16px] items-center uppercase" style={{ color: colors.primary }}>
+          <div className="flex gap-[16px] items-center uppercase" style={{ color: "var(--color-text-primary)" }}>
             <p className="font-['IBM_Plex_Mono'] font-semibold text-[14px] leading-none shrink-0">Ben George</p>
-            <div className="hidden sm:flex gap-[4px] md:gap-[8px] items-center font-['IBM_Plex_Mono'] font-medium text-[12px] tracking-[0.96px] uppercase leading-none" style={{ color: colors.primary }}>
+            <div className="hidden sm:flex gap-[4px] md:gap-[8px] items-center font-['IBM_Plex_Mono'] font-medium text-[12px] tracking-[0.96px] uppercase leading-none" style={{ color: "var(--color-text-primary)" }}>
               <p>Kochi_[ist]</p><p>|</p><p>{time}</p>
             </div>
           </div>
@@ -231,8 +194,8 @@ function Navbar({ dark, toggleDark, onScrollTo, onEmail }: { dark: boolean; togg
               onClick={toggleDark}
               className="cursor-pointer p-[4px_8px] rounded-[4px]"
               style={{
-                color: toggleHovered ? colors.iPrimary : colors.primary,
-                backgroundColor: toggleHovered ? colors.iBg : "transparent",
+                color: toggleHovered ? "var(--color-inv-text-1)" : "var(--color-text-primary)",
+                backgroundColor: toggleHovered ? "var(--color-inv-bg)" : "transparent",
                 transition: "background-color 0.07s, color 0.07s",
               }}
               {...toggleBind}
@@ -243,22 +206,22 @@ function Navbar({ dark, toggleDark, onScrollTo, onEmail }: { dark: boolean; togg
                 <Moon size={16} strokeWidth={1.5} className={`absolute inset-0 transition-all duration-150 ${dark ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-0"}`} />
               </div>
             </button>
-            <div className="hidden sm:flex gap-[4px] md:gap-[8px] items-center font-['IBM_Plex_Mono'] font-medium text-[12px] tracking-[0.96px] uppercase leading-none" style={{ color: colors.primary }}>
-              <NavLink onClick={() => onScrollTo("cases")} colors={colors}>Work</NavLink>
-              <NavLink href="https://drive.google.com/file/d/1urZHmHllhfD-G9JwVkBSEJpRsW-Fn4R1/view" colors={colors}>Resume</NavLink>
-              <NavLink onClick={() => onScrollTo("contact")} colors={colors}>Contact</NavLink>
+            <div className="hidden sm:flex gap-[4px] md:gap-[8px] items-center font-['IBM_Plex_Mono'] font-medium text-[12px] tracking-[0.96px] uppercase leading-none" style={{ color: "var(--color-text-primary)" }}>
+              <NavLink onClick={() => onScrollTo("cases")}>Work</NavLink>
+              <NavLink href="https://drive.google.com/file/d/1urZHmHllhfD-G9JwVkBSEJpRsW-Fn4R1/view">Resume</NavLink>
+              <NavLink onClick={() => onScrollTo("contact")}>Contact</NavLink>
             </div>
             <button
               onClick={onEmail}
               className="px-[8px] py-[4px] rounded-[4px] cursor-pointer"
               style={{
-                fontFamily: "'IBM Plex Mono'",
+                fontFamily: "var(--font-mono)",
                 fontWeight: 500,
-                fontSize: 12,
-                letterSpacing: "0.96px",
+                fontSize: "var(--text-label-nav)",
+                letterSpacing: "var(--tracking-label-nav)",
                 textTransform: "uppercase",
-                backgroundColor: colors.emailBg,
-                color: colors.emailText,
+                backgroundColor: "var(--color-email-bg)",
+                color: "var(--color-email-text)",
                 opacity: emailHovered ? 0.7 : 1,
                 transition: "opacity 0.07s",
               }}
@@ -269,57 +232,52 @@ function Navbar({ dark, toggleDark, onScrollTo, onEmail }: { dark: boolean; togg
           </div>
         </div>
       </div>
-      {/* Mobile nav links */}
-      <div className="flex sm:hidden gap-[16px] items-center px-[16px] pb-[12px] font-['IBM_Plex_Mono'] font-medium text-[11px] tracking-[0.96px] uppercase leading-none" style={{ color: colors.primary }}>
-        <NavLink onClick={() => onScrollTo("cases")} colors={colors}>Work</NavLink>
-        <NavLink href="https://drive.google.com/file/d/1urZHmHllhfD-G9JwVkBSEJpRsW-Fn4R1/view" colors={colors}>Resume</NavLink>
-        <NavLink onClick={() => onScrollTo("contact")} colors={colors}>Contact</NavLink>
+      <div className="flex sm:hidden gap-[16px] items-center px-[16px] pb-[12px] font-['IBM_Plex_Mono'] font-medium text-[11px] tracking-[0.96px] uppercase leading-none" style={{ color: "var(--color-text-primary)" }}>
+        <NavLink onClick={() => onScrollTo("cases")}>Work</NavLink>
+        <NavLink href="https://drive.google.com/file/d/1urZHmHllhfD-G9JwVkBSEJpRsW-Fn4R1/view">Resume</NavLink>
+        <NavLink onClick={() => onScrollTo("contact")}>Contact</NavLink>
       </div>
-      <div aria-hidden="true" className="absolute border-[0.5px] border-solid inset-0 pointer-events-none rounded-[6px]" style={{ borderColor: colors.border }} />
+      <div aria-hidden="true" className="absolute border-[0.5px] border-solid inset-0 pointer-events-none rounded-[6px]" style={{ borderColor: "var(--color-border)" }} />
     </div>
   );
 }
 
-// --- Signal Card ---
-function SignalCard({ title, description, dark }: { title: string; description: string; dark: boolean }) {
+function SignalCard({ title, description }: { title: string; description: string }) {
   const { hovered, bind } = useHover();
-  const colors = c(dark);
   return (
     <div
       className="relative rounded-[8px] cursor-default"
       style={{
-        backgroundColor: hovered ? colors.iBg : "transparent",
+        backgroundColor: hovered ? "var(--color-inv-bg)" : "transparent",
         transition: "background-color 0.07s",
       }}
       {...bind}
     >
       <div className="overflow-clip rounded-[inherit] size-full">
         <div className="flex flex-col gap-[16px] p-[24px] md:p-[32px]">
-          <p className="font-['IBM_Plex_Mono'] font-medium leading-[1.2] text-[18px] md:text-[20px]" style={{ color: hovered ? colors.iPrimary : colors.primary, transition: "color 0.07s" }}>{title}</p>
-          <p className="font-['PP_Neue_Montreal'] font-normal leading-[1.4] text-[14px] md:text-[16px]" style={{ color: hovered ? colors.iSecondary : colors.secondary, transition: "color 0.07s" }}>{description}</p>
+          <p className="font-['IBM_Plex_Mono'] font-medium leading-[1.2] text-[18px] md:text-[20px]" style={{ color: hovered ? "var(--color-inv-text-1)" : "var(--color-text-primary)", transition: "color 0.07s" }}>{title}</p>
+          <p className="font-['PP_Neue_Montreal'] font-normal leading-[1.4] text-[14px] md:text-[16px]" style={{ color: hovered ? "var(--color-inv-text-2)" : "var(--color-text-secondary)", transition: "color 0.07s" }}>{description}</p>
         </div>
       </div>
-      <div aria-hidden="true" className="absolute border border-solid inset-0 pointer-events-none rounded-[8px]" style={{ borderColor: hovered ? "transparent" : colors.border, transition: "border-color 0.07s" }} />
+      <div aria-hidden="true" className="absolute border border-solid inset-0 pointer-events-none rounded-[8px]" style={{ borderColor: hovered ? "transparent" : "var(--color-border)", transition: "border-color 0.07s" }} />
     </div>
   );
 }
 
-// --- Case Card ---
-function CaseCard({ num, company, title, tags, metrics, dark, href }: {
+function CaseCard({ num, company, title, tags, metrics, href }: {
   num: string; company: string; title: string; tags: string;
-  metrics: { value: string; label: string }[]; dark: boolean; href: string;
+  metrics: { value: string; label: string }[]; href: string;
 }) {
   const { hovered, pressed, reset, bind } = useHover();
-  const colors = c(dark);
-  const pc = hovered ? colors.iPrimary : colors.primary;
-  const sc = hovered ? colors.iSecondary : colors.secondary;
-  const tc = hovered ? colors.iSecondary : colors.tertiary;
+  const pc = hovered ? "var(--color-inv-text-1)" : "var(--color-text-primary)";
+  const sc = hovered ? "var(--color-inv-text-2)" : "var(--color-text-secondary)";
+  const tc = hovered ? "var(--color-inv-text-2)" : "var(--color-text-tertiary)";
 
   return (
     <div
       className="relative w-full cursor-pointer rounded-[4px]"
       style={{
-        backgroundColor: hovered ? colors.iBg : "transparent",
+        backgroundColor: hovered ? "var(--color-inv-bg)" : "transparent",
         transform: pressed ? "scale(0.988)" : "scale(1)",
         transition: pressed
           ? "transform 0.05s cubic-bezier(0.4,0,0.6,1), background-color 0.07s"
@@ -394,23 +352,21 @@ function CaseCard({ num, company, title, tags, metrics, dark, href }: {
           </div>
         </div>
       </div>
-      <div aria-hidden="true" className="absolute border-b border-solid inset-0 pointer-events-none" style={{ borderColor: hovered ? "transparent" : colors.borderCase, transition: "border-color 0.07s" }} />
+      <div aria-hidden="true" className="absolute border-b border-solid inset-0 pointer-events-none" style={{ borderColor: hovered ? "transparent" : "var(--color-border-case)", transition: "border-color 0.07s" }} />
     </div>
   );
 }
 
-// --- Contact Card ---
-function ContactCard({ label, linkText, href, dark, onClick }: {
-  label: string; linkText: string; href?: string; dark: boolean; onClick?: () => void;
+function ContactCard({ label, linkText, href, onClick }: {
+  label: string; linkText: string; href?: string; onClick?: () => void;
 }) {
   const { hovered, pressed, reset, bind } = useHover();
-  const colors = c(dark);
 
   const inner = (
     <div
       className="relative w-full cursor-pointer rounded-[4px]"
       style={{
-        backgroundColor: hovered ? colors.iBg : "transparent",
+        backgroundColor: hovered ? "var(--color-inv-bg)" : "transparent",
         transform: pressed ? "scale(0.988)" : "scale(1)",
         transition: pressed
           ? "transform 0.05s cubic-bezier(0.4,0,0.6,1), background-color 0.07s"
@@ -420,14 +376,14 @@ function ContactCard({ label, linkText, href, dark, onClick }: {
     >
       <div className="flex items-center overflow-clip py-[18px] px-[8px]">
         <div className="w-[80px] md:w-[100px] shrink-0">
-          <p className="font-['IBM_Plex_Mono'] font-normal leading-[1.2] text-[11px] tracking-[0.66px] uppercase" style={{ color: hovered ? colors.iSecondary : colors.muted, transition: "color 0.07s" }}>{label}</p>
+          <p className="font-['IBM_Plex_Mono'] font-normal leading-[1.2] text-[11px] tracking-[0.66px] uppercase" style={{ color: hovered ? "var(--color-inv-text-2)" : "var(--color-text-muted)", transition: "color 0.07s" }}>{label}</p>
         </div>
         <div className="flex gap-[13px] items-center">
-          <p className="font-['IBM_Plex_Mono'] font-medium leading-[20px] text-[14px]" style={{ color: hovered ? colors.iPrimary : colors.primary, transition: "color 0.07s" }}>↗</p>
-          <p className="font-['IBM_Plex_Mono'] font-normal leading-[20px] text-[12px] md:text-[14px]" style={{ color: hovered ? colors.iPrimary : colors.primary, transition: "color 0.07s" }}>{linkText}</p>
+          <p className="font-['IBM_Plex_Mono'] font-medium leading-[20px] text-[14px]" style={{ color: hovered ? "var(--color-inv-text-1)" : "var(--color-text-primary)", transition: "color 0.07s" }}>↗</p>
+          <p className="font-['IBM_Plex_Mono'] font-normal leading-[20px] text-[12px] md:text-[14px]" style={{ color: hovered ? "var(--color-inv-text-1)" : "var(--color-text-primary)", transition: "color 0.07s" }}>{linkText}</p>
         </div>
       </div>
-      <div aria-hidden="true" className="absolute border-b border-solid inset-0 pointer-events-none" style={{ borderColor: hovered ? "transparent" : colors.border, transition: "border-color 0.07s" }} />
+      <div aria-hidden="true" className="absolute border-b border-solid inset-0 pointer-events-none" style={{ borderColor: hovered ? "transparent" : "var(--color-border)", transition: "border-color 0.07s" }} />
     </div>
   );
 
@@ -435,7 +391,6 @@ function ContactCard({ label, linkText, href, dark, onClick }: {
   return <a href={href} target="_blank" rel="noopener noreferrer" onClick={reset}>{inner}</a>;
 }
 
-// --- Toast ---
 function Toast({ message, visible }: { message: string; visible: boolean }) {
   return (
     <div className={`fixed bottom-[32px] left-1/2 -translate-x-1/2 z-[100] transition-all duration-300 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[16px] pointer-events-none"}`}>
@@ -446,7 +401,6 @@ function Toast({ message, visible }: { message: string; visible: boolean }) {
   );
 }
 
-// --- Data ---
 const signalCards = [
   { title: "0 → 1", description: "Experienced in 0-to-1 environments. I take raw, ambiguous requirements and translate them into structured, launch-ready software." },
   { title: "Design systems", description: "Built and managed core component libraries. I translate complex interface patterns into strict, reusable rules that speed up engineering." },
@@ -467,14 +421,12 @@ const contacts = [
   { label: "MEDIUM", linkText: "medium.com/@iambengeorge", href: "https://medium.com/@iambengeorge" },
 ];
 
-// --- Main ---
 export default function App() {
   const [dark, setDark] = useState(false);
   const [toast, setToast] = useState({ message: "", visible: false });
   const casesRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
   const { hovered: resumeHovered, bind: resumeBind } = useHover();
-  const colors = c(dark);
 
   const scrollTo = useCallback((id: string) => {
     const ref = id === "cases" ? casesRef : contactRef;
@@ -490,7 +442,6 @@ export default function App() {
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(email).then(success).catch(() => {
-        // Fallback for when Clipboard API is blocked
         const textarea = document.createElement("textarea");
         textarea.value = email;
         textarea.style.position = "fixed";
@@ -498,17 +449,13 @@ export default function App() {
         document.body.appendChild(textarea);
         textarea.focus();
         textarea.select();
-        try {
-          document.execCommand("copy");
-          success();
-        } catch {
+        try { document.execCommand("copy"); success(); } catch {
           setToast({ message: "Copy failed. Email: hello@bengeorge.in", visible: true });
           setTimeout(() => setToast((t) => ({ ...t, visible: false })), 3000);
         }
         document.body.removeChild(textarea);
       });
     } else {
-      // Fallback for browsers without Clipboard API
       const textarea = document.createElement("textarea");
       textarea.value = email;
       textarea.style.position = "fixed";
@@ -516,10 +463,7 @@ export default function App() {
       document.body.appendChild(textarea);
       textarea.focus();
       textarea.select();
-      try {
-        document.execCommand("copy");
-        success();
-      } catch {
+      try { document.execCommand("copy"); success(); } catch {
         setToast({ message: "Copy failed. Email: hello@bengeorge.in", visible: true });
         setTimeout(() => setToast((t) => ({ ...t, visible: false })), 3000);
       }
@@ -528,71 +472,66 @@ export default function App() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center min-h-screen transition-colors duration-300" style={{ backgroundColor: colors.bg }}>
-      {/* Fixed full-viewport WebGL background — behind everything */}
+    <div className={`flex flex-col items-center min-h-screen transition-colors duration-300${dark ? " dark" : ""}`} style={{ backgroundColor: "var(--color-bg)" }}>
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
         <UnicornBg opacity={dark ? 0.45 : 0.25} />
       </div>
 
-      {/* Navbar */}
       <Navbar dark={dark} toggleDark={() => setDark(!dark)} onScrollTo={scrollTo} onEmail={copyEmail} />
 
-      {/* Hero section */}
+      {/* Hero */}
       <div className="relative z-[1] w-full">
-        {/* Bottom gradient: pure alpha fade from bgTransparent → bgOverlay over 440px.
-            Hero ends visually at bgOverlay so the below-fold section starts at the exact same value. */}
         <div
           className="absolute bottom-0 left-0 right-0 pointer-events-none z-[1]"
           style={{
             height: 440,
-            background: `linear-gradient(to bottom, ${colors.bgTransparent} 0%, ${colors.bgOverlay} 100%)`,
+            background: `linear-gradient(to bottom, var(--color-bg-transparent) 0%, var(--color-bg-overlay) 100%)`,
           }}
         />
-        {/* Hero content */}
         <div className="relative z-[2] w-full max-w-[940px] mx-auto px-[16px] md:px-[24px] lg:px-0 pt-[80px] md:pt-[120px] lg:pt-[160px] pb-[80px] md:pb-[120px] lg:pb-[160px]">
           <div className="flex flex-col gap-[24px]">
-            <p className="font-['IBM_Plex_Mono'] font-medium leading-none text-[12px] tracking-[0.96px] uppercase" style={{ color: colors.muted }}>{`PRODUCT DESIGNER //`}</p>
+            <p className="font-['IBM_Plex_Mono'] font-medium leading-none text-[12px] tracking-[0.96px] uppercase" style={{ color: "var(--color-text-muted)" }}>{`PRODUCT DESIGNER //`}</p>
             <div className="flex flex-col gap-[32px]">
-              <p className="font-['PP_Neue_Montreal'] font-medium leading-[1.05] text-[40px] md:text-[64px] lg:text-[95px] tracking-[-1px] md:tracking-[-2px] lg:tracking-[-2.85px] transition-colors duration-300" style={{ color: colors.primary }}>
+              <p className="font-['PP_Neue_Montreal'] font-medium leading-[1.05] text-[40px] md:text-[64px] lg:text-[95px] tracking-[-1px] md:tracking-[-2px] lg:tracking-[-2.85px] transition-colors duration-300" style={{ color: "var(--color-text-primary)" }}>
                 I design software and the systems that scale it.
               </p>
-              <p className="font-['PP_Neue_Montreal'] font-normal leading-[1.5] text-[15px] md:text-[16px] lg:text-[18px] transition-colors duration-300" style={{ color: colors.secondary }}>
+              <p className="font-['PP_Neue_Montreal'] font-normal leading-[1.5] text-[15px] md:text-[16px] lg:text-[18px] transition-colors duration-300" style={{ color: "var(--color-text-secondary)" }}>
                 For the last 6 years, I've worked in high-speed startup environments, taking products from initial concept to market. I focus on measurable outcomes, work directly with engineering to respect technical constraints, and build systems meant to scale.
               </p>
             </div>
           </div>
           <div className="mt-[48px]">
-            <p className="font-['IBM_Plex_Mono'] font-medium leading-[1.3] text-[12px] md:text-[13px] lg:text-[14px] tracking-[0.56px] uppercase" style={{ color: colors.secondary }}>
+            <p className="font-['IBM_Plex_Mono'] font-medium leading-[1.3] text-[12px] md:text-[13px] lg:text-[14px] tracking-[0.56px] uppercase" style={{ color: "var(--color-text-secondary)" }}>
               {`RECENT: LEAD PRODUCT DESIGNER @ omnipractice [5 YEARS, B2b SAAS & B2C mobile]`}
             </p>
           </div>
         </div>
       </div>
 
-      {/* Below-fold — starts at exactly bgOverlay, no extra gradient (that would double-tint) */}
-      <div className="relative z-[1] w-full flex flex-col items-center transition-colors duration-200" style={{ backgroundColor: colors.bgOverlay }}>
+      {/* Below-fold */}
+      <div className="relative z-[1] w-full flex flex-col items-center transition-colors duration-200" style={{ backgroundColor: "var(--color-bg-overlay)" }}>
         {/* Signal Cards */}
         <div className="w-full max-w-[940px] px-[16px] md:px-[24px] lg:px-0 mt-[80px] md:mt-[120px] lg:mt-[160px]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px] md:gap-[24px]">
             {signalCards.map((card, i) => (
-              <SignalCard key={i} title={card.title} description={card.description} dark={dark} />
+              <SignalCard key={i} title={card.title} description={card.description} />
             ))}
           </div>
         </div>
 
         {/* Cases */}
         <div ref={casesRef} className="w-full max-w-[940px] px-[16px] md:px-[24px] lg:px-0 mt-[80px] md:mt-[120px] lg:mt-[160px]">
-          <p className="font-['IBM_Plex_Mono'] font-medium leading-none text-[12px] tracking-[0.96px] uppercase mb-[48px] md:mb-[64px] lg:mb-[80px]" style={{ color: colors.muted }}>{`work // cases`}</p>
+          <p className="font-['IBM_Plex_Mono'] font-medium leading-none text-[12px] tracking-[0.96px] uppercase mb-[48px] md:mb-[64px] lg:mb-[80px]" style={{ color: "var(--color-text-muted)" }}>{`work // cases`}</p>
           <div className="flex flex-col">
             {cases.map((cs) => (
-              <CaseCard key={cs.num} {...cs} dark={dark} />
+              <CaseCard key={cs.num} {...cs} />
             ))}
           </div>
         </div>
 
         {/* Contact */}
         <div ref={contactRef} className="w-full max-w-[940px] px-[16px] md:px-[24px] lg:px-0 mt-[80px] md:mt-[120px] lg:mt-[160px]">
-          <p className="font-['IBM_Plex_Mono'] font-medium leading-none text-[12px] tracking-[0.96px] uppercase mb-[48px] md:mb-[64px] lg:mb-[80px]" style={{ color: colors.muted }}>{`contact //`}</p>
+          <p className="font-['IBM_Plex_Mono'] font-medium leading-none text-[12px] tracking-[0.96px] uppercase mb-[48px] md:mb-[64px] lg:mb-[80px]" style={{ color: "var(--color-text-muted)" }}>{`contact //`}</p>
           <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-x-[96px]">
             <div className="flex flex-col">
               {contacts.map((ct) => (
@@ -601,7 +540,6 @@ export default function App() {
                   label={ct.label}
                   linkText={ct.linkText}
                   href={ct.href}
-                  dark={dark}
                   onClick={ct.isEmail ? copyEmail : undefined}
                 />
               ))}
@@ -613,8 +551,8 @@ export default function App() {
                 rel="noopener noreferrer"
                 className="font-['IBM_Plex_Mono'] font-medium leading-[1.3] text-[14px] md:text-[16px] uppercase cursor-pointer flex items-end justify-center lg:justify-end w-full h-full px-[8px] py-[18px]"
                 style={{
-                  color: resumeHovered ? colors.iPrimary : colors.primary,
-                  backgroundColor: resumeHovered ? colors.iBg : "transparent",
+                  color: resumeHovered ? "var(--color-inv-text-1)" : "var(--color-text-primary)",
+                  backgroundColor: resumeHovered ? "var(--color-inv-bg)" : "transparent",
                   textDecoration: "none",
                   transition: "background-color 0.07s, color 0.07s",
                 }}
@@ -622,16 +560,16 @@ export default function App() {
               >
                 [ download RESUME ↓ ]
               </a>
-              <div aria-hidden="true" className="absolute border-b border-solid inset-0 pointer-events-none" style={{ borderColor: resumeHovered ? "transparent" : colors.border, transition: "border-color 0.07s" }} />
+              <div aria-hidden="true" className="absolute border-b border-solid inset-0 pointer-events-none" style={{ borderColor: resumeHovered ? "transparent" : "var(--color-border)", transition: "border-color 0.07s" }} />
             </div>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="w-full mt-[80px] md:mt-[120px] lg:mt-[160px] transition-colors duration-300" style={{ backgroundColor: colors.footerBg }}>
+        <div className="w-full mt-[80px] md:mt-[120px] lg:mt-[160px] transition-colors duration-300" style={{ backgroundColor: "var(--color-footer-bg)" }}>
           <div className="max-w-[940px] mx-auto px-[16px] md:px-[24px] lg:px-0 py-[20px] flex flex-col md:flex-row justify-between items-center gap-[8px]">
-            <p className="font-['IBM_Plex_Mono'] font-normal leading-[16.5px] text-[11px] tracking-[0.66px] uppercase" style={{ color: colors.footerText }}>© 2026 BEN GEORGE. ALL RIGHTS RESERVED.</p>
-            <p className="font-['IBM_Plex_Mono'] font-normal leading-[16.5px] text-[11px] tracking-[0.66px] uppercase" style={{ color: colors.footerText }}>say hello@bengeorge.in</p>
+            <p className="font-['IBM_Plex_Mono'] font-normal leading-[16.5px] text-[11px] tracking-[0.66px] uppercase" style={{ color: "var(--color-footer-text)" }}>© 2026 BEN GEORGE. ALL RIGHTS RESERVED.</p>
+            <p className="font-['IBM_Plex_Mono'] font-normal leading-[16.5px] text-[11px] tracking-[0.66px] uppercase" style={{ color: "var(--color-footer-text)" }}>say hello@bengeorge.in</p>
           </div>
         </div>
       </div>

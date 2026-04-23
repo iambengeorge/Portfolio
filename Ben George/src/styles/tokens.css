@@ -1,0 +1,176 @@
+/* =============================================================
+   Design Tokens — Figma Folio_Home
+   Source: 3awTxcTE10bBXE0ab6sbgW
+   ============================================================= */
+
+:root {
+  /* ------------------------------------------------------------------ */
+  /* FONT FAMILIES                                                        */
+  /* ------------------------------------------------------------------ */
+  --font-heading: 'PP Neue Montreal', sans-serif;
+  --font-body: 'PP Neue Montreal', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --font-data: 'Departure Mono', monospace;
+
+  /* ------------------------------------------------------------------ */
+  /* TYPE SCALE                                                           */
+  /* ------------------------------------------------------------------ */
+  --text-display-h1: 64px;       /* Display/H1 */
+  --text-display-h2: 48px;       /* Display/H2 */
+  --text-title-1: 24px;          /* title/t1 */
+  --text-title-2: 16px;          /* title/t2 */
+  --text-body-1: 18px;           /* Body/B1 */
+  --text-body-2: 16px;           /* Body/b2 */
+  --text-label-nav: 12px;        /* Labels/nav */
+  --text-label-1: 11px;          /* Labels/L1 */
+  --text-data-massive: 120px;    /* Data/D1 Massive */
+  --text-data-small: 16px;       /* Data/small */
+
+  /* ------------------------------------------------------------------ */
+  /* LINE HEIGHTS                                                         */
+  /* ------------------------------------------------------------------ */
+  --leading-display-h1: 1.05;
+  --leading-display-h2: 1.1;
+  --leading-title-1: 1.2;
+  --leading-title-2: 1.3;
+  --leading-body-1: 1.5;
+  --leading-body-2: 1.4;
+  --leading-label-nav: 1;
+  --leading-label-1: 1.2;
+  --leading-data: 1;
+  --leading-data-small: 1.2;
+
+  /* ------------------------------------------------------------------ */
+  /* LETTER SPACING                                                       */
+  /* ------------------------------------------------------------------ */
+  --tracking-display-h1: -0.03em;
+  --tracking-display-h2: -0.02em;
+  --tracking-title-1: -0.02em;
+  --tracking-label-nav: 0.08em;
+  --tracking-label-1: 0.06em;
+  --tracking-data: 0.02em;
+
+  /* ------------------------------------------------------------------ */
+  /* SPACING                                                             */
+  /* ------------------------------------------------------------------ */
+
+  /* Micro */
+  --space-micro-1: 4px;
+  --space-micro-2: 8px;
+  --space-micro-3: 12px;
+
+  /* Component */
+  --space-comp-1: 16px;
+  --space-comp-2: 24px;
+  --space-comp-3: 32px;
+  --space-comp-4: 48px;
+
+  /* Section */
+  --space-section-1: 80px;
+  --space-section-2: 120px;
+  --space-section-3: 160px;
+
+  /* Layout */
+  --space-col-gap: 96px;
+  --container-width: 940px;
+
+  /* ------------------------------------------------------------------ */
+  /* BORDER RADIUS                                                        */
+  /* ------------------------------------------------------------------ */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+
+  /* ------------------------------------------------------------------ */
+  /* COLORS — Light (L Neutral)                                          */
+  /* ------------------------------------------------------------------ */
+
+  /* Backgrounds */
+  --color-bg:             rgba(249, 249, 249, 1);
+  --color-bg-secondary:   rgba(240, 240, 240, 1);
+  --color-bg-overlay:     rgba(249, 249, 249, 0.55);
+  --color-bg-transparent: rgba(249, 249, 249, 0);
+  --color-nav-bg:         rgba(232, 236, 233, 1);
+  --color-image-surface:  rgba(242, 242, 242, 1);
+
+  /* Text */
+  --color-text-primary:   rgba(18,  18,  18,  1);
+  --color-text-secondary: rgba(77,  77,  77,  1);
+  --color-text-tertiary:  rgba(117, 117, 117, 1);
+  --color-text-muted:     rgba(117, 117, 117, 1);
+
+  /* Borders */
+  --color-border:         rgba(196, 204, 201, 1);
+  --color-border-strong:  rgba(209, 217, 214, 1);
+  --color-border-case:    rgba(196, 204, 201, 1);
+
+  /* Brand */
+  --color-brand:          rgba(0,   133, 84,  1);
+  --color-brand-2:        rgba(56,  148, 112, 1);
+  --color-brand-surface:  rgba(235, 245, 241, 1);
+
+  /* Alert */
+  --color-alert:          rgba(145, 48,  39,  1);
+  --color-alert-2:        rgba(161, 82,  74,  1);
+  --color-alert-surface:  rgba(253, 236, 234, 1);
+
+  /* Inverted (hover fills — opposite palette) */
+  --color-inv-bg:         rgba(18,  18,  18,  1);
+  --color-inv-text-1:     rgba(209, 213, 211, 1);
+  --color-inv-text-2:     rgba(148, 154, 152, 1);
+
+  /* Footer */
+  --color-footer-bg:      rgba(18,  18,  18,  1);
+  --color-footer-text:    rgba(249, 249, 249, 1);
+
+  /* Email button */
+  --color-email-bg:       rgba(18,  18,  18,  1);
+  --color-email-text:     rgba(249, 249, 249, 1);
+}
+
+/* ------------------------------------------------------------------ */
+/* COLORS — Dark Tinted (Dark T)                                       */
+/* ------------------------------------------------------------------ */
+.dark {
+  /* Backgrounds */
+  --color-bg:             rgba(18,  20,  19,  1);
+  --color-bg-secondary:   rgba(25,  29,  27,  1);
+  --color-bg-overlay:     rgba(18,  20,  19,  0.55);
+  --color-bg-transparent: rgba(18,  20,  19,  0);
+  --color-nav-bg:         rgba(25,  29,  27,  1);
+  --color-image-surface:  rgba(245, 247, 246, 1);
+
+  /* Text */
+  --color-text-primary:   rgba(209, 213, 211, 1);
+  --color-text-secondary: rgba(148, 154, 152, 1);
+  --color-text-tertiary:  rgba(108, 114, 112, 1);
+  --color-text-muted:     rgba(148, 154, 152, 1);
+
+  /* Borders */
+  --color-border:         rgba(42,  46,  44,  1);
+  --color-border-strong:  rgba(42,  46,  44,  1);
+  --color-border-case:    rgba(58,  64,  61,  1);
+
+  /* Brand */
+  --color-brand:          rgba(38,  240, 161, 1);
+  --color-brand-2:        rgba(56,  148, 112, 1);
+  --color-brand-surface:  rgba(22,  36,  31,  1);
+
+  /* Alert */
+  --color-alert:          rgba(246, 128, 116, 1);
+  --color-alert-2:        rgba(161, 82,  74,  1);
+  --color-alert-surface:  rgba(36,  26,  25,  1);
+
+  /* Inverted */
+  --color-inv-bg:         rgba(209, 213, 211, 1);
+  --color-inv-text-1:     rgba(18,  18,  18,  1);
+  --color-inv-text-2:     rgba(77,  77,  77,  1);
+
+  /* Footer */
+  --color-footer-bg:      rgba(209, 213, 211, 1);
+  --color-footer-text:    rgba(25,  29,  27,  1);
+
+  /* Email button */
+  --color-email-bg:       rgba(209, 213, 211, 1);
+  --color-email-text:     rgba(22,  36,  31,  1);
+}
