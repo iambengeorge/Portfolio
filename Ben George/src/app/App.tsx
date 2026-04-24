@@ -14,6 +14,8 @@ function UnicornBg({ opacity }: { opacity: number }) {
     let cancelled = false;
 
     async function init() {
+      // Skip in headless prerender environments (Puppeteer sets navigator.webdriver)
+      if (navigator.webdriver) return;
       if (!(window as any).UnicornStudio) {
         await new Promise<void>((resolve, reject) => {
           const s = document.createElement("script");
