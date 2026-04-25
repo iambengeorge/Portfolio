@@ -267,29 +267,56 @@ function SignalCard({ title, description }: { title: string; description: string
   );
 }
 
-function CaseCard({ num, company, title, tags, metrics, href }: {
+function CaseCard({ num, company, title, tags, metrics, href, thumbnail }: {
   num: string; company: string; title: string; tags: string;
-  metrics: { value: string; label: string }[]; href: string;
+  metrics: { value: string; label: string }[]; href: string; thumbnail?: string;
 }) {
   const { hovered, pressed, reset, bind } = useHover();
   const navigate = useNavigate();
   const pc = hovered ? "var(--color-inv-text-1)" : "var(--color-text-primary)";
   const sc = hovered ? "var(--color-inv-text-2)" : "var(--color-text-secondary)";
   const tc = hovered ? "var(--color-inv-text-2)" : "var(--color-text-tertiary)";
+  const ease = "cubic-bezier(0.4,0,0.2,1)";
 
   return (
     <div
-      className="relative w-full cursor-pointer rounded-[4px]"
+      className="relative w-full cursor-pointer rounded-[4px] overflow-hidden"
       style={{
         backgroundColor: hovered ? "var(--color-inv-bg)" : "transparent",
         transform: pressed ? "scale(0.988)" : "scale(1)",
         transition: pressed
-          ? "transform 0.05s cubic-bezier(0.4,0,0.6,1), background-color 0.07s"
-          : "transform 0.12s cubic-bezier(0.0,0,0.2,1), background-color 0.07s",
+          ? `transform 0.05s cubic-bezier(0.4,0,0.6,1), background-color 0.07s`
+          : `transform 0.12s cubic-bezier(0.0,0,0.2,1), background-color 0.07s`,
       }}
       {...bind}
       onClick={() => { reset(); href.startsWith("/") ? navigate(href) : window.open(href, "_blank", "noopener,noreferrer"); }}
     >
+      {/* Thumbnail — slides up, pushes text row down */}
+      {thumbnail && (
+        <div style={{
+          display: "grid",
+          gridTemplateRows: hovered ? "1fr" : "0fr",
+          transition: `grid-template-rows 0.52s ${ease}`,
+        }}>
+          <div style={{ overflow: "hidden" }}>
+            <img
+              src={thumbnail}
+              alt=""
+              draggable={false}
+              style={{
+                width: "100%",
+                height: "clamp(160px, 26vw, 280px)",
+                objectFit: "cover",
+                objectPosition: "center",
+                display: "block",
+                transform: hovered ? "scale(1) translateY(0)" : "scale(1.06) translateY(16px)",
+                opacity: hovered ? 1 : 0,
+                transition: `transform 0.52s ${ease}, opacity 0.38s ease`,
+              }}
+            />
+          </div>
+        </div>
+      )}
       {/* Desktop */}
       <div className="hidden lg:grid grid-cols-[minmax(0,0.5fr)_minmax(0,4fr)_minmax(0,2fr)] gap-x-[96px] py-[48px] px-[16px]">
         <p className="font-['Departure_Mono'] font-normal leading-none text-[40px] tracking-[0.8px] transition-colors duration-200" style={{ color: sc }}>{num}</p>
@@ -413,9 +440,9 @@ const signalCards = [
 ];
 
 const cases = [
-  { num: "01", company: "Omnipractice", title: "Designing for user activation against a massive 86% drop-off", tags: "Healthcare SaaS · b2b · Lead Designer · 5 weeks", metrics: [{ value: "14 → 41%", label: "activation_rate" }, { value: "30 → 70%", label: "onb_completion" }], href: "/case/01" },
-  { num: "02", company: "Omnipractice", title: "Practice management SaaS for mental health clinics in the US", tags: "Healthcare SaaS · b2b & b2c· Lead Designer · 8 months", metrics: [{ value: "35% decrease", label: "claim_rejections" }, { value: "100+ components", label: "design_system" }], href: "https://wondrous-need-786173.framer.app/" },
-  { num: "03", company: "Fairsplits", title: "Lifestyle finance app for trips and hangouts", tags: "consumer app · Mobile · 0 → 1 · founding designer. 2025", metrics: [{ value: "released", label: "app_store" }, { value: "released", label: "play_store" }], href: "https://www.behance.net/gallery/217296307/Fairsplits-UIUX-Case-study-Bill-splitting-app" },
+  { num: "01", company: "Omnipractice", title: "Designing for user activation against a massive 86% drop-off", tags: "Healthcare SaaS · b2b · Lead Designer · 5 weeks", metrics: [{ value: "14 → 41%", label: "activation_rate" }, { value: "30 → 70%", label: "onb_completion" }], href: "/case/01", thumbnail: "/images/thumbnails/case-01.png" },
+  { num: "02", company: "Omnipractice", title: "Practice management SaaS for mental health clinics in the US", tags: "Healthcare SaaS · b2b & b2c· Lead Designer · 8 months", metrics: [{ value: "35% decrease", label: "claim_rejections" }, { value: "100+ components", label: "design_system" }], href: "https://wondrous-need-786173.framer.app/", thumbnail: "/images/thumbnails/case-02.png" },
+  { num: "03", company: "Fairsplits", title: "Lifestyle finance app for trips and hangouts", tags: "consumer app · Mobile · 0 → 1 · founding designer. 2025", metrics: [{ value: "released", label: "app_store" }, { value: "released", label: "play_store" }], href: "https://www.behance.net/gallery/217296307/Fairsplits-UIUX-Case-study-Bill-splitting-app", thumbnail: "/images/thumbnails/case-03.png" },
 ];
 
 const contacts = [
