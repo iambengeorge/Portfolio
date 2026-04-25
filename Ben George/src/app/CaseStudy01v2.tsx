@@ -370,10 +370,8 @@ export default function CaseStudy01v2() {
         </Wrap>
       </div>
 
-      <Rule />
-
       {/* ── 01 / Context ──────────────────────────────────────────────────── */}
-      <Section bg="var(--color-nav-bg)">
+      <Section>
         <SecNum n="01." />
         <SecTitle>Omnipractice & the leak</SecTitle>
         <Narrow>
@@ -401,22 +399,14 @@ export default function CaseStudy01v2() {
             <span style={{ color: "var(--color-alert)" }}>Only 14% of self-serve users reached this milestone</span> — meaning 86% of paid sign-ups were failing to experience the product's core value.
           </StatCallout>
         </Narrow>
+        <Callout label="Goal">
+          Our goal was to understand why activation was breaking down and help more users reach their{" "}
+          <span style={{ fontWeight: 500 }}>first scheduled session.</span>
+        </Callout>
       </Section>
 
-      {/* ── Goal ──────────────────────────────────────────────────────────── */}
-      <div style={{ backgroundColor: "var(--color-bg)" }}>
-        <Wrap>
-          <Callout label="Goal">
-            Our goal was to understand why activation was breaking down and help more users reach their{" "}
-            <span style={{ fontWeight: 500 }}>first scheduled session.</span>
-          </Callout>
-        </Wrap>
-      </div>
-
-      <Rule />
-
       {/* ── 02 / Diagnosis ────────────────────────────────────────────────── */}
-      <Section bg="var(--color-nav-bg)">
+      <Section>
         <SecNum n="02." />
         <SecTitle>The leak</SecTitle>
         <Narrow>
@@ -445,23 +435,16 @@ export default function CaseStudy01v2() {
           <Fig figNo="fig 02.C" label="Tooltips" accentLabel="Choke Point 1" src={I.choke1} caption="When users attempted to schedule a session, the scheduling modal opened, but required fields such as client, provider, and service were empty. Most users stalled at this step." />
           <Fig figNo="fig 02.D" label="Tooltips" accentLabel="Choke Point 2" src={I.choke2} caption="Users who entered My Practice Setup exited the setup flow after completing one or two steps, abandoning the process before finishing the full practice configuration and rarely returning to complete it." />
         </FigRow>
+
+        <Callout label="Working conclusion">
+          Together, this suggested the need for a{" "}
+          <span style={{ textDecoration: "underline", textDecorationSkipInk: "none" }}>linear, structured onboarding experience</span>
+          {" "}that prepared the user account for scheduling.
+        </Callout>
       </Section>
 
-      {/* ── Working Conclusion ────────────────────────────────────────────── */}
-      <div style={{ backgroundColor: "var(--color-bg)" }}>
-        <Wrap>
-          <Callout label="Working conclusion">
-            Together, this suggested the need for a{" "}
-            <span style={{ textDecoration: "underline", textDecorationSkipInk: "none" }}>linear, structured onboarding experience</span>
-            {" "}that prepared the user account for scheduling.
-          </Callout>
-        </Wrap>
-      </div>
-
-      <Rule />
-
       {/* ── 03 / Iteration 1 ──────────────────────────────────────────────── */}
-      <Section bg="var(--color-nav-bg)">
+      <Section>
         <SecNum n="03." />
         <SecTitle>We introduced a 6-step linear onboarding wizard</SecTitle>
         <Narrow>
@@ -496,11 +479,8 @@ export default function CaseStudy01v2() {
             Relevant only after users enabled paid workflows.
           </Body>
         </Narrow>
-      </Section>
 
-      {/* ── Outcome 1 ─────────────────────────────────────────────────────── */}
-      <div style={{ backgroundColor: "var(--color-bg)", paddingTop: 96, paddingBottom: 96 }}>
-        <Wrap>
+        <div style={{ marginTop: 64 }}>
           <p style={{ fontFamily: fM, fontWeight: 600, fontSize: 12, letterSpacing: "0.84px", textTransform: "uppercase", color: "var(--color-text-secondary)", marginBottom: 48 }}>
             OUTCOME // Iter 1: PARTIAL SUCCESS
           </p>
@@ -514,13 +494,11 @@ export default function CaseStudy01v2() {
               {", "}making it insufficient and unsustainable for a scalable self-serve funnel.
             </BodyStrong>
           </div>
-        </Wrap>
-      </div>
-
-      <Rule />
+        </div>
+      </Section>
 
       {/* ── 04 / Understanding the drop-off ──────────────────────────────── */}
-      <Section bg="var(--color-nav-bg)">
+      <Section>
         <SecNum n="04." />
         <SecTitle>Understanding the drop-off</SecTitle>
 
@@ -556,24 +534,17 @@ export default function CaseStudy01v2() {
           <BodyStrong>The Services step had no defaults, no examples, and required users to know their CPT billing codes upfront.</BodyStrong>
           <Body style={{ marginTop: 16 }}>Most self-serve users were solo practitioners, unfamiliar with billing codes. Faced with an empty form, they either skipped the step or quit entirely — leaving their account unready for scheduling.</Body>
         </Narrow>
+
+        <Callout label="Insight">
+          We needed to shift our goal from{" "}
+          <em>completing setup</em>{" "}to{" "}
+          <em>enabling evaluation</em>
+          {" "}— and help users reach a positive answer as quickly as possible.
+        </Callout>
       </Section>
 
-      {/* ── Insight ───────────────────────────────────────────────────────── */}
-      <div style={{ backgroundColor: "var(--color-bg)" }}>
-        <Wrap>
-          <Callout label="Insight">
-            We needed to shift our goal from{" "}
-            <em>completing setup</em>{" "}to{" "}
-            <em>enabling evaluation</em>
-            {" "}— and help users reach a positive answer as quickly as possible.
-          </Callout>
-        </Wrap>
-      </div>
-
-      <Rule />
-
       {/* ── 05 / Iteration 2 ──────────────────────────────────────────────── */}
-      <Section bg="var(--color-nav-bg)">
+      <Section>
         <SecNum n="05." />
         <SecTitle>We made 4 deliberate changes.</SecTitle>
 
@@ -619,11 +590,8 @@ export default function CaseStudy01v2() {
         </div>
 
         <Fig figNo="fig 05.E" label="Final Outcome" src={I.finalOutcome} caption="The combined effect of smart defaults, flexible checklist, and just-in-time prompts drove a step-change in activation." />
-      </Section>
 
-      {/* ── Outcome 2 ─────────────────────────────────────────────────────── */}
-      <div style={{ backgroundColor: "var(--color-bg)", paddingTop: 96, paddingBottom: 96 }}>
-        <Wrap>
+        <div style={{ marginTop: 64 }}>
           <p style={{ fontFamily: fM, fontWeight: 600, fontSize: 12, letterSpacing: "0.84px", textTransform: "uppercase", color: "var(--color-text-secondary)", marginBottom: 48 }}>
             OUTCOME // Iter 2: <span style={{ color: "var(--color-text-primary)" }}>BREAKTHROUGH</span>
           </p>
@@ -640,13 +608,11 @@ export default function CaseStudy01v2() {
               {" "}and this lift translated directly into higher conversion to paid plans.
             </Callout>
           </div>
-        </Wrap>
-      </div>
-
-      <Rule />
+        </div>
+      </Section>
 
       {/* ── 06 / Tradeoffs ────────────────────────────────────────────────── */}
-      <Section bg="var(--color-nav-bg)">
+      <Section>
         <SecNum n="06." />
         <SecTitle>Compliance credentials — when to ask?</SecTitle>
         <Narrow>
@@ -655,11 +621,11 @@ export default function CaseStudy01v2() {
         </Narrow>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 0, margin: "40px 0" }}>
-          <div style={{ padding: 32, backgroundColor: "var(--color-bg)", border: "0.5px solid var(--color-border)" }}>
+          <div style={{ padding: 32, backgroundColor: "var(--color-nav-bg)", border: "0.5px solid var(--color-border)" }}>
             <p style={{ fontFamily: fM, fontWeight: 500, fontSize: 12, letterSpacing: "0.96px", textTransform: "uppercase", color: "var(--color-brand)", marginBottom: 16 }}>→ For — Collect upfront</p>
             <Body>Providers are sensitive to compliance (HIPAA, patient data). Asking for credentials early signals legitimacy and professionalism — especially for a new product competing with established players.</Body>
           </div>
-          <div style={{ padding: 32, backgroundColor: "var(--color-bg)", border: "0.5px solid var(--color-border)" }}>
+          <div style={{ padding: 32, backgroundColor: "var(--color-nav-bg)", border: "0.5px solid var(--color-border)" }}>
             <p style={{ fontFamily: fM, fontWeight: 500, fontSize: 12, letterSpacing: "0.96px", textTransform: "uppercase", color: "var(--color-text-tertiary)", marginBottom: 16 }}>← Against — Defer</p>
             <Body>Users first want to evaluate: is this product worth switching to? License numbers during onboarding add friction without immediate value — they're only required in billing or insurance workflows.</Body>
           </div>
