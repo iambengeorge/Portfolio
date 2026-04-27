@@ -440,7 +440,7 @@ const signalCards = [
 ];
 
 const cases = [
-  { num: "01", company: "Omnipractice", title: "Designing for user activation against a massive 86% drop-off", tags: "Healthcare SaaS · b2b · Lead Designer · 5 weeks", metrics: [{ value: "14 → 41%", label: "activation_rate" }, { value: "30 → 70%", label: "onb_completion" }], href: "/case/01", thumbnail: "/images/thumbnails/case-01.png" },
+  { num: "01", company: "Omnipractice", title: "Designing for user activation against a massive 86% drop-off", tags: "Healthcare SaaS · b2b · Lead Designer · 5 weeks", metrics: [{ value: "14 → 41%", label: "activation_rate" }, { value: "30 → 70%", label: "onb_completion" }], href: "https://case-01.figma.site/", thumbnail: "/images/thumbnails/case-01.png" },
   { num: "02", company: "Omnipractice", title: "Practice management SaaS for mental health clinics in the US", tags: "Healthcare SaaS · b2b & b2c· Lead Designer · 8 months", metrics: [{ value: "35% decrease", label: "claim_rejections" }, { value: "100+ components", label: "design_system" }], href: "https://wondrous-need-786173.framer.app/", thumbnail: "/images/thumbnails/case-02.png" },
   { num: "03", company: "Fairsplits", title: "Lifestyle finance app for trips and hangouts", tags: "consumer app · Mobile · 0 → 1 · founding designer. 2025", metrics: [{ value: "released", label: "app_store" }, { value: "released", label: "play_store" }], href: "https://www.behance.net/gallery/217296307/Fairsplits-UIUX-Case-study-Bill-splitting-app", thumbnail: "/images/thumbnails/case-03.png" },
 ];
