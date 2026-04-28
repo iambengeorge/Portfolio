@@ -305,9 +305,7 @@ function CaseCard({ num, company, title, tags, metrics, href, thumbnail }: {
               draggable={false}
               style={{
                 width: "100%",
-                height: "clamp(160px, 26vw, 280px)",
-                objectFit: "cover",
-                objectPosition: "center",
+                height: "auto",
                 display: "block",
                 transform: hovered ? "scale(1) translateY(0)" : "scale(1.06) translateY(16px)",
                 opacity: hovered ? 1 : 0,
