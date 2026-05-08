@@ -136,10 +136,12 @@ const responsiveStyles = `
   overflow-x: hidden;
 }
 
-/* ===== VIDEO MOCKUP: spacing under Omnipractice subtitle ===== */
+/* ===== VIDEO MOCKUP: pull up to sit just under Omnipractice subtitle ===== */
+/* Sub grid has gap-y-64px between rows; offset most of it so the video
+   reads as a continuation of the Omnipractice row (~28px visual gap). */
 [data-name="video-host"] {
-  margin-top: 32px;
-  margin-bottom: 16px;
+  margin-top: -36px;
+  margin-bottom: 28px;
 }
 
 /* ===== TABLET: max-width 1024px ===== */
