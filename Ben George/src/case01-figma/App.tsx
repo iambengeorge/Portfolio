@@ -11,25 +11,26 @@ export default function App() {
   const [videoHost, setVideoHost] = useState<HTMLDivElement | null>(null);
   const deskWrapperRef = useRef<HTMLDivElement>(null);
 
-  // Inject a host div for the video mockup directly after the "Omnipractice"
-  // title-body row inside S/Context > Sub, so the video sits below the
-  // "01 / context" heading and the Omnipractice subtitle.
+  // Inject a host div for the video mockup inside the Omnipractice title-body
+  // row in S/Context. It's appended as a grid child of that row spanning both
+  // columns so it visually sits right below the description text on all
+  // viewport sizes, avoiding the auto-placement conflict in the parent Sub grid
+  // (which has explicit row-1/2/3 for its three title-body rows, pushing any
+  // auto-placed sibling to row-4 after the Activation row on desktop).
   useEffect(() => {
     const wrapper = deskWrapperRef.current;
     if (!wrapper) return;
-    const sub = wrapper.querySelector(
-      '[data-name="S/Context"] [data-name="Sub"]'
-    );
-    if (!sub) return;
-    const firstRow = sub.children[0] as HTMLElement | undefined;
-    if (!firstRow) return;
-    if (sub.querySelector('[data-name="video-host"]')) return;
+    const omnipracticeTitleBody = wrapper.querySelector(
+      '[data-name="S/Context"] [data-name="Sub"] [data-name="title body"]'
+    ) as HTMLElement | null;
+    if (!omnipracticeTitleBody) return;
+    if (omnipracticeTitleBody.querySelector('[data-name="video-host"]')) return;
     const host = document.createElement('div');
     host.setAttribute('data-name', 'video-host');
-    host.style.gridColumn = '1 / span 8';
-    host.style.width = '940px';
-    host.style.maxWidth = '100%';
-    firstRow.insertAdjacentElement('afterend', host);
+    // Span both columns of the title-body grid (side-title + body)
+    host.style.gridColumn = '1 / span 2';
+    host.style.width = '100%';
+    omnipracticeTitleBody.appendChild(host);
     setVideoHost(host);
     return () => {
       host.remove();
@@ -136,12 +137,11 @@ const responsiveStyles = `
   overflow-x: hidden;
 }
 
-/* ===== VIDEO MOCKUP: pull up to sit just under Omnipractice subtitle ===== */
-/* Sub grid has gap-y-64px between rows; offset most of it so the video
-   reads as a continuation of the Omnipractice row (~28px visual gap). */
+/* ===== VIDEO MOCKUP: sits inside the Omnipractice title-body row ===== */
+/* The title-body grid has gap-y-16px; add a little extra to reach ~28px. */
 [data-name="video-host"] {
-  margin-top: -36px;
-  margin-bottom: 28px;
+  margin-top: 12px;
+  margin-bottom: 0;
 }
 
 /* ===== TABLET: max-width 1024px ===== */
