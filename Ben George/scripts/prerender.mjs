@@ -18,7 +18,7 @@ const DIST = path.join(__dirname, "..", "dist");
 const PORT = 5179;
 
 // Routes to prerender. /design-system is an internal dev tool, skip it.
-const ROUTES = ["/", "/case/01"];
+const ROUTES = ["/", "/case/01", "/case/01-figma"];
 
 // Requests to block so Puppeteer doesn't hang waiting for CDNs
 const BLOCKED_HOSTS = ["cdn.jsdelivr.net", "unicornstudio", "app.unicornstudio.com"];

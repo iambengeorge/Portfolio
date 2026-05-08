@@ -291,30 +291,6 @@ function CaseCard({ num, company, title, tags, metrics, href, thumbnail }: {
       {...bind}
       onClick={() => { reset(); href.startsWith("/") ? navigate(href) : window.open(href, "_blank", "noopener,noreferrer"); }}
     >
-      {/* Thumbnail — slides up, pushes text row down */}
-      {thumbnail && (
-        <div style={{
-          display: "grid",
-          gridTemplateRows: hovered ? "1fr" : "0fr",
-          transition: `grid-template-rows 0.52s ${ease}`,
-        }}>
-          <div style={{ overflow: "hidden" }}>
-            <img
-              src={thumbnail}
-              alt=""
-              draggable={false}
-              style={{
-                width: "100%",
-                height: "auto",
-                display: "block",
-                transform: hovered ? "scale(1) translateY(0)" : "scale(1.06) translateY(16px)",
-                opacity: hovered ? 1 : 0,
-                transition: `transform 0.52s ${ease}, opacity 0.38s ease`,
-              }}
-            />
-          </div>
-        </div>
-      )}
       {/* Desktop */}
       <div className="hidden lg:grid grid-cols-[minmax(0,0.5fr)_minmax(0,4fr)_minmax(0,2fr)] gap-x-[96px] py-[48px] px-[16px]">
         <p className="font-['Departure_Mono'] font-normal leading-none text-[40px] tracking-[0.8px] transition-colors duration-200" style={{ color: sc }}>{num}</p>
@@ -381,6 +357,30 @@ function CaseCard({ num, company, title, tags, metrics, href, thumbnail }: {
           </div>
         </div>
       </div>
+      {/* Thumbnail — slides down below info, info stays in place */}
+      {thumbnail && (
+        <div style={{
+          display: "grid",
+          gridTemplateRows: hovered ? "1fr" : "0fr",
+          transition: `grid-template-rows 0.52s ${ease}`,
+        }}>
+          <div style={{ overflow: "hidden" }}>
+            <img
+              src={thumbnail}
+              alt=""
+              draggable={false}
+              style={{
+                width: "100%",
+                height: "auto",
+                display: "block",
+                transform: hovered ? "scale(1) translateY(0)" : "scale(1.06) translateY(-16px)",
+                opacity: hovered ? 1 : 0,
+                transition: `transform 0.52s ${ease}, opacity 0.38s ease`,
+              }}
+            />
+          </div>
+        </div>
+      )}
       <div aria-hidden="true" className="absolute border-b border-solid inset-0 pointer-events-none" style={{ borderColor: hovered ? "transparent" : "var(--color-border-case)", transition: "border-color 0.07s" }} />
     </div>
   );
@@ -438,7 +438,7 @@ const signalCards = [
 ];
 
 const cases = [
-  { num: "01", company: "Omnipractice", title: "Designing for user activation against a massive 86% drop-off", tags: "Healthcare SaaS · b2b · Lead Designer · 5 weeks", metrics: [{ value: "14 → 41%", label: "activation_rate" }, { value: "30 → 70%", label: "onb_completion" }], href: "https://case-01.figma.site/", thumbnail: "/images/thumbnails/variant-A2.png" },
+  { num: "01", company: "Omnipractice", title: "Designing for user activation against a massive 86% drop-off", tags: "Healthcare SaaS · b2b · Lead Designer · 5 weeks", metrics: [{ value: "14 → 41%", label: "activation_rate" }, { value: "30 → 70%", label: "onb_completion" }], href: "/case/01-figma", thumbnail: "/images/thumbnails/variant-A2.png" },
   { num: "02", company: "Omnipractice", title: "Practice management SaaS for mental health clinics in the US", tags: "Healthcare SaaS · b2b & b2c· Lead Designer · 8 months", metrics: [{ value: "35% decrease", label: "claim_rejections" }, { value: "100+ components", label: "design_system" }], href: "https://wondrous-need-786173.framer.app/", thumbnail: "/images/thumbnails/case-02.png" },
   { num: "03", company: "Fairsplits", title: "Lifestyle finance app for trips and hangouts", tags: "consumer app · Mobile · 0 → 1 · founding designer. 2025", metrics: [{ value: "released", label: "app_store" }, { value: "released", label: "play_store" }], href: "https://www.behance.net/gallery/217296307/Fairsplits-UIUX-Case-study-Bill-splitting-app", thumbnail: "/images/thumbnails/case-03.png" },
 ];

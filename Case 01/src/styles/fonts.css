@@ -1,0 +1,62 @@
+@font-face {
+  font-family: 'PP_Neue_Montreal';
+  src: local('PP Neue Montreal Book'), local('PPNeueMontreal-Book');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP_Neue_Montreal';
+  src: local('PP Neue Montreal Medium'), local('PPNeueMontreal-Medium');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP_Neue_Montreal';
+  src: local('PP Neue Montreal SemiBold'), local('PPNeueMontreal-SemiBold');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Departure_Mono';
+  src: local('Departure Mono Regular'), local('DepartureMono-Regular');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Fallback sans-serif for IBM Plex Mono */
+.font-\[\'IBM_plex_Mono\:Regular\'\,sans-serif\],
+.font-\[\'IBM_Plex_Mono\:Regular\'\,sans-serif\],
+.font-\[\'IBM_Plex_Mono\:Medium\'\,sans-serif\],
+.font-\[\'IBM_plex_Mono\:Medium\'\,sans-serif\],
+.font-\[\'IBM_Plex_Mono\:SemiBold\'\,sans-serif\],
+.font-\[\'IBM_plex_Mono\:SemiBold\'\,sans-serif\],
+.font-\[\'IBM_Plex_Mono\:Bold\'\,sans-serif\] {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.font-\[\'PP_Neue_Montreal\:Book\'\,sans-serif\] {
+  font-family: 'PP_Neue_Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 400;
+}
+
+.font-\[\'PP_Neue_Montreal\:Medium\'\,sans-serif\] {
+  font-family: 'PP_Neue_Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 500;
+}
+
+.font-\[\'PP_Neue_Montreal\:SemiBold\'\,sans-serif\] {
+  font-family: 'PP_Neue_Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 600;
+}
+
+.font-\[\'Departure_Mono\:Regular\'\,sans-serif\] {
+  font-family: 'Departure_Mono', 'IBM Plex Mono', monospace;
+  font-weight: 400;
+}
